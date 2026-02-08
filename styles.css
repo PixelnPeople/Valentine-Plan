@@ -1,0 +1,807 @@
+/* styles.css
+   Mobile-first styles for the Valentine's Day planner splash screen
+   - Uses the project's design system (colors, fonts, spacing)
+*/
+
+:root {
+  /* Color system */
+  --bg-start: #FFE6EC;
+  --bg-end: #FFD1DC;
+  --accent-primary: #E84C7A;
+  --accent-secondary: #D94A6A;
+  --text-primary: #5A1A2C;
+  --text-secondary: #8A4A5E;
+  --text-muted: #B07A8C;
+  --card-border: #F3B5C7;
+}
+
+/* Reset & base */
+* { box-sizing: border-box; }
+html,body { height: 100%; }
+body {
+  margin: 0;
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Pink gradient background (soft) */
+  background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* App container (constrains width to a typical mobile device, centered) */
+.app {
+  width: 100%;
+  max-width: 390px; /* iPhone 13 width */
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Splash card */
+.splash-card {
+  width: 100%;
+  border-radius: 16px;
+  padding: 36px 24px;
+  background: rgba(255,255,255,0.92); /* soft card surface */
+  border: 1px solid var(--card-border);
+  box-shadow: 0 10px 30px rgba(232,76,122,0.08), 0 2px 8px rgba(0,0,0,0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 180px;
+}
+
+/* Heading / splash text */
+.splash-title {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 1.08;
+  color: var(--text-primary);
+  opacity: 0;
+  transform: translateY(8px);
+  /* Smooth fade-in + subtle upward movement (user requested: 1.2s, ease-out) */
+  animation: fadeInUp 1.2s ease-out 200ms forwards;
+  padding: 0 6px;
+}
+
+/* Keyframes for fade-in */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Exit animation for splash: fade out while sliding up */
+@keyframes fadeOutUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+.splash-card.exit {
+  animation: fadeOutUp 600ms ease-out forwards;
+}
+
+/* When body has splash-active, make the splash fill and center perfectly */
+body.splash-active {
+  padding: 0; /* remove page padding that could offset centering */
+}
+
+body.splash-active .splash-card {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  z-index: 100;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0;
+}
+
+/* Hide finalize button while splash is active */
+body.splash-active .finalize-wrap {
+  display: none !important;
+}
+
+/* Main planner screen (hidden initially) */
+.main-screen {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
+
+/* When shown, fade in + slide up */
+.main-screen.show {
+  animation: fadeInUp 500ms ease-out forwards;
+  pointer-events: auto;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.planner-card {
+  width: 100%;
+  border-radius: 16px;
+  padding: 28px 20px;
+  background: rgba(255,255,255,0.96);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 8px 24px rgba(232,76,122,0.06);
+}
+
+.planner-title {
+  margin: 0 0 8px 0;
+  font-family: "Playfair Display", Georgia, serif;
+  color: var(--accent-primary);
+  font-size: 20px;
+}
+
+/* Planner header */
+.planner-header { margin-bottom: 18px; text-align: center; }
+.planner-heading {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  color: var(--text-primary);
+  font-size: 20px;
+  line-height: 1.1;
+}
+
+/* Tabs */
+.tabs {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px;
+  margin-bottom: 16px;
+  align-items: flex-end;
+  /* CSS vars used by JS to position the underline */
+  --underline-left: 0px;
+  --underline-width: 0px;
+}
+
+.tab {
+  flex: 1 1 0;
+  background: transparent;
+  border: none;
+  padding: 10px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--text-secondary); /* inactive tab color */
+  cursor: pointer;
+  font-family: "Poppins", system-ui, sans-serif;
+  font-size: 13px;
+  border-radius: 8px;
+}
+.tab:focus { outline: 2px solid rgba(232,76,122,0.12); outline-offset: 2px; }
+.tab[aria-selected="true"] { color: var(--accent-primary); /* active tab color */ }
+.tab-icon { font-size: 20px; line-height: 1; }
+.tab-label { display: block; }
+
+/* animated underline element */
+.tab-underline {
+  position: absolute;
+  bottom: 0;
+  left: var(--underline-left);
+  width: var(--underline-width);
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+  border-radius: 3px;
+  transition: left 250ms ease-in-out, width 250ms ease-in-out;
+}
+
+/* Tab panels */
+.tab-panels { padding-top: 8px; }
+.tab-panel { font-size: 14px; color: var(--text-secondary); }
+
+/* Panel enter/exit animations (reuse fadeInUp / fadeOutUp) */
+.tab-panel.anim-in {
+  animation: fadeInUp 500ms ease-out forwards;
+}
+.tab-panel.anim-out {
+  animation: fadeOutUp 420ms ease-out forwards;
+}
+
+/* Cards grid */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 6px 18px rgba(88,26,44,0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Disable card transitions/animations while switching tabs to avoid visual glitches */
+body.disable-card-anim .card,
+body.disable-card-anim .card * {
+  transition: none !important;
+  transform: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+.card-image {
+  width: 100%;
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  display: block;
+  background: linear-gradient(135deg, rgba(232,76,122,0.06), rgba(217,74,106,0.04));
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-content {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1 1 auto;
+}
+
+.card-title {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 15px;
+  color: var(--text-primary);
+}
+
+.card-desc {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.card-button {
+  margin-top: auto;
+  align-self: center;
+  padding: 8px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--accent-primary);
+  color: var(--accent-primary);
+  background: transparent;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 180ms ease, color 180ms ease, transform 80ms ease;
+  min-width: 44%;
+  text-align: center;
+}
+.card-button:active {
+  transform: translateY(1px);
+}
+.card-button:focus { outline: 2px solid rgba(232,76,122,0.12); outline-offset: 2px; }
+
+/* Tap/pressed state: invert colors */
+.card-button.pressed,
+.card-button:active,
+.card-button:focus:not(:focus-visible) {
+  background: var(--accent-primary);
+  color: #fff;
+}
+
+/* Make sure grid is single column on very small screens */
+@media (max-width: 320px) {
+  .cards-grid { grid-template-columns: 1fr; }
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .splash-title {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Small responsive tweak for larger screens */
+@media (min-width: 420px) {
+  .splash-card { padding: 48px 36px; min-height: 220px; }
+  .splash-title { font-size: 34px; }
+}
+
+/* Utility: muted text */
+.muted { color: var(--text-muted); font-size: 14px; }
+
+/* Modal component */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(10,10,10,0.32);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms ease-out;
+  z-index: 80;
+}
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-sheet {
+  width: 100%;
+  max-width: 720px;
+  height: 70vh;
+  background: #fff;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0 -8px 32px rgba(88,26,44,0.12);
+  transform: translateY(20px);
+  opacity: 0;
+  transition: transform 300ms ease-out, opacity 300ms ease-out;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.modal-overlay.open .modal-sheet {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid #f4f4f4;
+}
+.modal-title {
+  margin: 0;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+.modal-close {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 6px;
+  color: var(--text-secondary);
+}
+
+.modal-body {
+  padding: 12px 16px;
+  overflow: auto;
+  flex: 1 1 auto;
+  -webkit-overflow-scrolling: touch;
+}
+.modal-list { display: flex; flex-direction: column; gap: 10px; }
+.modal-item {
+  padding: 12px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 4px 14px rgba(88,26,44,0.04);
+}
+
+/* Add-your-choice item styling to match other modal items */
+.modal-item.add-choice {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  cursor: pointer;
+}
+.modal-item.add-choice .plus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: rgba(232,76,122,0.06);
+  color: var(--accent-primary);
+  font-weight: 700;
+  font-size: 14px;
+}
+.modal-add-input {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+.modal-add-input input[type="text"] {
+  flex: 1 1 auto;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--card-border);
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+}
+.modal-add-input .modal-add-btn {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--accent-primary);
+  background: var(--accent-primary);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modal-footer {
+  padding: 12px 16px;
+  border-top: 1px solid #f4f4f4;
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.96));
+}
+.modal-done {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: none;
+  background: var(--accent-primary);
+  color: #fff;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .modal-overlay,
+  .modal-sheet { transition: none; transform: none; opacity: 1; }
+}
+
+/* Sticky finalize button */
+.finalize-wrap {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: env(safe-area-inset-bottom, 12px);
+  display: flex;
+  justify-content: center;
+  pointer-events: auto;
+  padding: 12px;
+  z-index: 40;
+}
+.finalize-inner {
+  width: 100%;
+  max-width: 390px;
+}
+.finalize-btn {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--accent-primary);
+  color: #fff;
+  border: none;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 10px 26px rgba(232,76,122,0.18);
+  cursor: pointer;
+  transition: transform 350ms cubic-bezier(.2,1.2,.2,1), box-shadow 200ms ease;
+  touch-action: manipulation;
+}
+.finalize-btn:active {
+  transform: scale(0.97);
+  transition-duration: 120ms;
+  box-shadow: 0 6px 18px rgba(232,76,122,0.14);
+}
+
+/* small accessibility focus state */
+.finalize-btn:focus {
+  outline: 3px solid rgba(232,76,122,0.12);
+  outline-offset: 2px;
+}
+
+/* Final screen styles */
+.final-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.18));
+  z-index: 120;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms ease;
+}
+.final-screen.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+.final-screen-inner {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+  transform: scale(0.96);
+  transition: transform 300ms ease;
+}
+.final-screen.show .final-screen-inner { transform: scale(1); }
+.final-title {
+  margin: 0 0 14px 0;
+  text-align: center;
+  font-family: "Playfair Display", serif;
+  color: var(--text-primary);
+  font-size: 20px;
+}
+.final-card-wrap { display: flex; justify-content: center; }
+.final-card-wrap {
+  display: flex;
+  justify-content: center;
+  position: relative; /* for layered backdrop */
+}
+.final-card {
+  width: 100%;
+  border-radius: 24px;
+  padding: 24px 28px; /* increased padding for premium feel */
+  background: linear-gradient(180deg, #FFE6EC 0%, #FFD1DC 100%);
+  box-shadow: 0 18px 44px rgba(88,26,44,0.10);
+  color: var(--text-primary);
+  position: relative;
+  z-index: 2;
+}
+/* Layered darker pink card behind, slightly offset */
+.final-card-wrap::before {
+  content: "";
+  position: absolute;
+  right: -10px;
+  bottom: -10px;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  border-radius: 26px;
+  background: linear-gradient(180deg, rgba(232,76,122,0.06), rgba(217,74,106,0.04));
+  box-shadow: 0 10px 30px rgba(232,76,122,0.06);
+  z-index: 1;
+  transform: translate(8px, 8px);
+}
+.final-card-heading {
+  margin: 0 0 24px 0;
+  font-family: "Playfair Display", serif;
+  font-size: 32px; /* larger main heading */
+  line-height: 1.2;
+  text-align: center;
+}
+.final-card-sub {
+  margin: 0 0 14px 0;
+  font-family: "Poppins", sans-serif;
+  color: var(--text-secondary);
+  font-size: 13px;
+  letter-spacing: 0.2px;
+  display: none; /* hide per request */
+}
+.final-sections { display: flex; flex-direction: column; gap: 18px; margin-bottom: 16px; }
+.final-section {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 300ms ease, transform 300ms ease;
+  padding: 6px 0;
+}
+.final-section.show { opacity: 1; transform: translateY(0); }
+.final-section h4 {
+  margin: 0 0 10px 0;
+  font-family: "Playfair Display", serif;
+  font-size: 15px;
+  text-align: center; /* center-align section headings */
+  letter-spacing: 0.2px;
+}
+.final-section .pill {
+  margin: 0 8px 8px 0;
+  display: inline-flex;
+}
+.final-pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+}
+.final-ending {
+  margin-top: 16px;
+  font-weight: 600;
+  text-align: center;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--text-muted); /* softer color */
+  line-height: 1.4;
+}
+
+/* Slightly larger, softer pills inside final card */
+.final-card .pill {
+  background: #FFE6EC;
+  color: var(--text-primary);
+  border: 1px solid var(--card-border);
+  border-radius: 999px;
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  padding: 6px 10px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.final-actions { display:flex; gap:10px; margin-top:12px; justify-content:center; }
+.btn-outline {
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid var(--text-secondary);
+  color: var(--text-primary);
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+}
+.btn-filled {
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--accent-primary);
+  border: none;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  cursor: pointer;
+}
+.btn-filled:active { transform: scale(0.98); transition-duration: 120ms; }
+
+/* Hide actions when no selections */
+.final-actions.hidden { display: none; }
+
+/* Close button on final screen */
+.final-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  /* Filled circular button with off-white background and pink boundary */
+  width: 40px;
+  height: 40px;
+  background: #fff7f9; /* off-white with a warm tint */
+  border: 2px solid var(--accent-primary);
+  color: var(--accent-primary);
+  font-size: 18px;
+  line-height: 1;
+  padding: 0;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 60;
+}
+.final-close:focus {
+  outline: 3px solid rgba(232,76,122,0.12);
+  outline-offset: 2px;
+}
+
+/* Selected item visuals in modal */
+.modal-item.selected {
+  background: linear-gradient(90deg, rgba(232,76,122,0.06), rgba(217,74,106,0.04));
+  border-color: var(--accent-primary);
+  position: relative;
+}
+.modal-item .check {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  background: var(--accent-primary);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+/* Card selected count */
+.card-meta { margin-top: 6px; min-height: 0; }
+.card-selected-count {
+  display: none !important; /* hide numeric selection labels */
+}
+
+/* Pills for selected items inside cards */
+.card-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  align-items: center;
+  justify-content: flex-start;
+}
+.card-pills .pill {
+  background: #FFE6EC;
+  color: var(--text-primary);
+  border: 1px solid var(--card-border);
+  border-radius: 999px;
+  font-family: "Poppins", sans-serif;
+  font-size: 12px;
+  padding: 4px 8px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.card-pills .more-pill {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* Card selected visual state */
+.card.card-selected {
+  border-color: var(--accent-primary);
+  transform-origin: center;
+  animation: cardSuccess 220ms ease forwards;
+  box-shadow: 0 8px 22px rgba(232,76,122,0.06);
+}
+.card .selected-check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--accent-primary);
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  box-shadow: 0 2px 6px rgba(88,26,44,0.08);
+}
+
+@keyframes cardSuccess {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}

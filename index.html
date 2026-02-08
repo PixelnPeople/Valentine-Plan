@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Valentine's Day Planner</title>
+  <!-- Design fonts (Playfair Display for headings, Poppins for body/buttons) -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="splash-active">
+  <main class="app" id="app-root">
+    <!-- Splash card: mobile-first full-screen layout -->
+    <section class="splash-card" role="banner" aria-label="Splash screen">
+      <h1 class="splash-title">Plan Your Perfect Valentine’s Day</h1>
+    </section>
+    <!-- Main planner screen (hidden until splash finishes) -->
+    <section class="main-screen" role="main" aria-label="Main planner" aria-hidden="true">
+      <div class="planner-card">
+        <header class="planner-header">
+          <h1 class="planner-heading">Plan Your Perfect Valentine’s Day</h1>
+        </header>
+
+        <!-- Tab navigation -->
+        <nav class="tabs" role="tablist" aria-label="Planner tabs">
+          <button class="tab" role="tab" aria-selected="true" data-tab="together">
+            <span class="tab-icon" aria-hidden="true">❤️</span>
+            <span class="tab-label">Together</span>
+          </button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="virtual">
+            <span class="tab-icon" aria-hidden="true">🎥</span>
+            <span class="tab-label">Virtual</span>
+          </button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="metime">
+            <span class="tab-icon" aria-hidden="true">🌸</span>
+            <span class="tab-label">Me Time</span>
+          </button>
+
+          <!-- animated underline -->
+          <div class="tab-underline" aria-hidden="true"></div>
+        </nav>
+
+        <div class="tab-panels" aria-live="polite">
+          <div class="tab-panel" data-panel="together">
+            <!-- 2-column grid of cards -->
+            <div class="cards-grid" role="list">
+              <article class="card" role="listitem">
+                <div class="card-image" aria-hidden="true">
+                  <img src="./images/movie.jpg" alt="Movie time" loading="lazy">
+                </div>
+                <div class="card-content">
+                  <h3 class="card-title">Movie Time</h3>
+                  <p class="card-desc">Watch, laugh, and love</p>
+                  <div class="card-meta"><span class="card-selected-count" data-category="together_movie_time"></span></div>
+                  <button class="card-button" type="button" data-category="together_movie_time">Select Movie</button>
+                </div>
+              </article>
+
+              <article class="card" role="listitem">
+                <div class="card-image" aria-hidden="true">
+                  <img src="./images/cooking.jpg" alt="Cooking together" loading="lazy">
+                </div>
+                <div class="card-content">
+                  <h3 class="card-title">Cook Together</h3>
+                  <p class="card-desc">Cook and eat with love</p>
+                  <div class="card-meta"><span class="card-selected-count" data-category="together_cook_together"></span></div>
+                  <button class="card-button" type="button" data-category="together_cook_together">Select Recipe</button>
+                </div>
+              </article>
+
+              <article class="card" role="listitem">
+                <div class="card-image" aria-hidden="true">
+                  <img src="./images/couple.jpg" alt="Couple outdoors" loading="lazy">
+                </div>
+                <div class="card-content">
+                  <h3 class="card-title">Outdoor Activity</h3>
+                  <p class="card-desc">Plan the adventure</p>
+                  <div class="card-meta"><span class="card-selected-count" data-category="together_outdoor_activity"></span></div>
+                  <button class="card-button" type="button" data-category="together_outdoor_activity">Select Activity</button>
+                </div>
+              </article>
+
+              <article class="card" role="listitem">
+                <div class="card-image" aria-hidden="true">
+                  <img src="./images/spa.jpg" alt="Spa relaxing" loading="lazy">
+                </div>
+                <div class="card-content">
+                  <h3 class="card-title">Spa Time</h3>
+                  <p class="card-desc">A relaxing date</p>
+                  <div class="card-meta"><span class="card-selected-count" data-category="together_spa_time"></span></div>
+                  <button class="card-button" type="button" data-category="together_spa_time">Select Spa</button>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div class="tab-panel" data-panel="virtual" hidden>
+            <div class="cards-grid" role="list">
+              <article class="card" role="listitem">
+                <div class="card-image" aria-hidden="true">
+                  <img src="https://source.unsplash.com/featured/?video-call,couple" alt="Watch together" loading="lazy">
+                </div>
+                <div class="card-content">
+                  <h3 class="card-title">Watch Together</h3>
+                  <p class="card-desc">Sync up &amp; stream love</p>
+                  <div class="card-meta"><span class="card-selected-count" data-category="virtual_watch_together"></span></div>
+                  <button class="card-button" type="button" data-category="virtual_watch_together">Pick a Movie</button>
+                </div>
+              </article>
+
+              <article class="card" role="listitem">
+                <div class="card-image" aria-hidden="true">
+                  <img src="https://source.unsplash.com/featured/?romantic,dinner" alt="Order dinner" loading="lazy">
+                </div>
+                <div class="card-content">
+                  <h3 class="card-title">Order Dinner</h3>
+                  <p class="card-desc">Surprise them with a meal</p>
+                  <div class="card-meta"><span class="card-selected-count" data-category="virtual_order_dinner"></span></div>
+                  <button class="card-button" type="button" data-category="virtual_order_dinner">Send a Treat</button>
+                </div>
+              </article>
+
+              <article class="card" role="listitem">
+                <div class="card-image" aria-hidden="true">
+                  <img src="https://source.unsplash.com/featured/?online-game" alt="Game night" loading="lazy">
+                </div>
+                <div class="card-content">
+                  <h3 class="card-title">Game Night</h3>
+                  <p class="card-desc">Play, compete, and connect</p>
+                  <div class="card-meta"><span class="card-selected-count" data-category="virtual_game_night"></span></div>
+                  <button class="card-button" type="button" data-category="virtual_game_night">Play a Game</button>
+                </div>
+              </article>
+
+              <article class="card" role="listitem">
+                <div class="card-image" aria-hidden="true">
+                  <img src="https://source.unsplash.com/featured/?love,letter" alt="Love letter" loading="lazy">
+                </div>
+                <div class="card-content">
+                  <h3 class="card-title">Love Letter Email</h3>
+                  <p class="card-desc">Say it in words that last</p>
+                  <div class="card-meta"><span class="card-selected-count" data-category="virtual_love_letter"></span></div>
+                  <button class="card-button" type="button" data-category="virtual_love_letter">Write &amp; Send</button>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div class="tab-panel" data-panel="metime" hidden>
+            <div class="cards-grid" role="list">
+              <article class="card" role="listitem">
+                <div class="card-image" aria-hidden="true">
+                  <img src="https://source.unsplash.com/featured/?movie,night" alt="Movie marathon" loading="lazy">
+                </div>
+                <div class="card-content">
+                  <h3 class="card-title">Movie Marathon</h3>
+                  <p class="card-desc">Rom-coms &amp; chill vibes</p>
+                  <div class="card-meta"><span class="card-selected-count" data-category="metime_movie_marathon"></span></div>
+                  <button class="card-button" type="button" data-category="metime_movie_marathon">Pick Your Movies</button>
+                </div>
+              </article>
+
+              <article class="card" role="listitem">
+                <div class="card-image" aria-hidden="true">
+                  <img src="https://source.unsplash.com/featured/?self-care,spa" alt="Self care spa" loading="lazy">
+                </div>
+                <div class="card-content">
+                  <h3 class="card-title">Self-Care Spa</h3>
+                  <p class="card-desc">Pamper, relax &amp; glow</p>
+                  <div class="card-meta"><span class="card-selected-count" data-category="metime_self_care_spa"></span></div>
+                  <button class="card-button" type="button" data-category="metime_self_care_spa">Plan My Routine</button>
+                </div>
+              </article>
+
+              <article class="card" role="listitem">
+                <div class="card-image" aria-hidden="true">
+                  <img src="https://source.unsplash.com/featured/?chocolate,wine" alt="Indulgent treat" loading="lazy">
+                </div>
+                <div class="card-content">
+                  <h3 class="card-title">Indulgent Treat</h3>
+                  <p class="card-desc">Chocolate, wine &amp; you</p>
+                  <div class="card-meta"><span class="card-selected-count" data-category="metime_indulgent_treat"></span></div>
+                  <button class="card-button" type="button" data-category="metime_indulgent_treat">Order Goodies</button>
+                </div>
+              </article>
+
+              <article class="card" role="listitem">
+                <div class="card-image" aria-hidden="true">
+                  <img src="https://source.unsplash.com/featured/?journal,writing" alt="Manifest and reflect" loading="lazy">
+                </div>
+                <div class="card-content">
+                  <h3 class="card-title">Manifest &amp; Reflect</h3>
+                  <p class="card-desc">Set intentions, love yourself</p>
+                  <div class="card-meta"><span class="card-selected-count" data-category="metime_manifest_reflect"></span></div>
+                  <button class="card-button" type="button" data-category="metime_manifest_reflect">Start Journaling</button>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <!-- Sticky finalise button -->
+  <div class="finalize-wrap" aria-hidden="false">
+    <div class="finalize-inner">
+      <button class="finalize-btn" type="button" id="finalizeBtn">Finalise Your Plan</button>
+    </div>
+  </div>
+
+  <!-- Reusable modal component -->
+  <div class="modal-overlay" aria-hidden="true">
+    <div class="modal-sheet" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <header class="modal-header">
+        <h3 id="modal-title" class="modal-title">Modal Title</h3>
+        <button class="modal-close" aria-label="Close modal">&times;</button>
+      </header>
+
+      <div class="modal-body" tabindex="0">
+        <div class="modal-list">
+          <!-- Placeholder list items; populated dynamically if needed -->
+          <div class="modal-item">Option 1</div>
+          <div class="modal-item">Option 2</div>
+          <div class="modal-item">Option 3</div>
+          <div class="modal-item">Option 4</div>
+          <div class="modal-item">Option 5</div>
+          <div class="modal-item">Option 6</div>
+          <div class="modal-item">Option 7</div>
+          <div class="modal-item">Option 8</div>
+        </div>
+      </div>
+
+      <footer class="modal-footer">
+        <button class="modal-done" type="button">Done</button>
+      </footer>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+  <!-- Final screen (hidden until finalize) -->
+  <div class="final-screen" aria-hidden="true">
+    <div class="final-screen-inner">
+      <button class="final-close" aria-label="Close final plan">&times;</button>
+      <div class="final-card-wrap">
+        <div class="final-card" role="region" aria-labelledby="final-card-heading">
+          <h3 id="final-card-heading" class="final-card-heading">Your Valentine’s Day</h3>
+          <p class="final-card-sub">Includes you</p>
+
+          <div class="final-sections" aria-live="polite">
+            <!-- Sections injected here -->
+          </div>
+
+          <p class="final-ending" aria-hidden="true"></p>
+        </div>
+      </div>
+
+      <div class="final-actions">
+        <button class="btn-outline" id="savePlanBtn">Save</button>
+        <button class="btn-filled" id="sharePlanBtn">Share</button>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
